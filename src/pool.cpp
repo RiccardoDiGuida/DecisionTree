@@ -3,6 +3,7 @@
 #include <iterator>
 #include <algorithm>
 #include <utility>
+#include <iostream>
 #include <assert.h>
 
 Pool::Pool()
@@ -42,9 +43,9 @@ Pool::Pool(const std::vector<int>& idxs,const std::vector<std::string>& labs, co
 
 Pool::Pool(const Pool &other)
     :samples(other.samples),levels(other.levels),
-     next(other.next),factor(other.factor),idx_splitter(other.idx_splitter)
+     factor(other.factor),idx_splitter(other.idx_splitter)
 {
-
+    copyNodes(next,other.next);
 }
 
 Pool& Pool::operator=(const Pool& other)
@@ -55,7 +56,7 @@ Pool& Pool::operator=(const Pool& other)
         levels = other.levels;
         factor = other.factor;
         idx_splitter = other.idx_splitter;
-        next = next;
+        copyNodes(next,other.next);
     }
     return *this;
 }
@@ -88,6 +89,23 @@ void Pool::add_sample(std::pair<int,std::string>)
 void Pool::remove_sample(int idx)
 {
     //ignore for the moment
+}
+
+void Pool::add_node(const Pool& newPool)
+{
+    next.push_back(std::make_shared<Pool>(newPool));
+}
+
+void Pool::add_node(Pool&& newPool)
+{
+    next.push_back(std::make_shared<Pool>(std::move(newPool)));
+}
+
+Pool& Pool::getNext(int i)
+{
+    if(i>=next.size())
+        throw std::out_of_range("i must be less than the number of pools pointed!");
+    return *(next[i]);
 }
 
 int Pool::sampleSize() const
@@ -123,4 +141,29 @@ std::vector<int> Pool::idxs(int facNumb) const
         throw std::out_of_range("n must be less than the number of levels!");
 
     return indexes;
+}
+
+std::ostream& operator<<(std::ostream& ostr,const Pool& pool)
+{
+    for(const auto& i: pool.samples)
+    {
+        ostr << i.first << " " << i.second << std::endl;
+
+        ostr << std::endl;
+    }
+
+    for(int i=0;i<pool.next.size();i++)
+    {
+        ostr << "Next[" << i << "]: " << std::endl;
+        ostr << *pool.next[i];
+    }
+    return ostr;
+}
+
+void Pool::copyNodes(NodeContainerType& to,const NodeContainerType& from)
+{
+    to.resize(from.size());
+
+    for(int i=0;i<to.size();i++)
+        to[i] = std::make_shared<Pool>(*(from[i]));  //here it calls recursevily the copy-ctor(and copyNodes)
 }

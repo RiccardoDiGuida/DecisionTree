@@ -11,6 +11,7 @@ set(DECISION_CPP
                                                 src/continuousdescriptor.cpp
                                                 src/categoricaldescriptor.cpp
                                                 src/pool.cpp
+                                                src/decisiontree.cpp
     )
 
 set(DECISION_H
@@ -18,6 +19,7 @@ set(DECISION_H
                                                 include/continuousdescriptor.h
                                                 include/categoricaldescriptor.h
                                                 include/pool.h
+                                                include/decisiontree.h
     )
 
 set(DECISION_DEMO_APP_SRC src/main.cpp)

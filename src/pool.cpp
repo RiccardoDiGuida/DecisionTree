@@ -7,13 +7,13 @@
 #include <assert.h>
 
 Pool::Pool()
-    :samples(),levels(),next(),factor(),idx_splitter()
+    :samples(),levels(),next(),factor(),idx_splitter(),info_gain()
 {
 
 }
 
-Pool::Pool(const MyMap &mapInit, const std::string &fac, int split)
-    :samples(mapInit),next(),factor(fac),idx_splitter(split)
+Pool::Pool(const MyMap &mapInit, const std::string &fac, int split,int gain)
+    :samples(mapInit),next(),factor(fac),idx_splitter(split),info_gain(gain)
 {
     std::set<std::string> uniq;
 
@@ -24,7 +24,7 @@ Pool::Pool(const MyMap &mapInit, const std::string &fac, int split)
     levels.assign(uniq.begin(),uniq.end());
 }
 
-Pool::Pool(const std::vector<int>& idxs,const std::vector<std::string>& labs, const std::string& fac,int split)
+Pool::Pool(const std::vector<int>& idxs,const std::vector<std::string>& labs, const std::string& fac,int split,int gain)
 {
     if(idxs.size()!=labs.size())
         throw std::out_of_range("Indexes and labels must have tha same size");
@@ -39,11 +39,12 @@ Pool::Pool(const std::vector<int>& idxs,const std::vector<std::string>& labs, co
 
     factor = fac;
     idx_splitter=split;
+    info_gain = gain;
 }
 
 Pool::Pool(const Pool &other)
     :samples(other.samples),levels(other.levels),
-     factor(other.factor),idx_splitter(other.idx_splitter)
+     factor(other.factor),idx_splitter(other.idx_splitter),info_gain(other.info_gain)
 {
     copyNodes(next,other.next);
 }
@@ -56,6 +57,7 @@ Pool& Pool::operator=(const Pool& other)
         levels = other.levels;
         factor = other.factor;
         idx_splitter = other.idx_splitter;
+        info_gain = other.info_gain;
         copyNodes(next,other.next);
     }
     return *this;
@@ -63,7 +65,7 @@ Pool& Pool::operator=(const Pool& other)
 
 Pool::Pool(Pool&& other) noexcept
     :samples(std::move(other.samples)),levels(std::move(levels)),
-             next(std::move(other.next)),factor(std::move(factor)),idx_splitter(other.idx_splitter)
+             next(std::move(other.next)),factor(std::move(factor)),idx_splitter(other.idx_splitter),info_gain(other.info_gain)
 {
 
 }
@@ -77,6 +79,7 @@ Pool& Pool::operator=(Pool&& other) noexcept
     next = std::move(other.next);
     factor = std::move(other.factor);
     idx_splitter = other.idx_splitter;
+    info_gain = other.info_gain;
 
     return *this;
 }

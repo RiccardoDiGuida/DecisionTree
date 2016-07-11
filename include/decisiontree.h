@@ -16,14 +16,14 @@ public:
     DecisionTree(DecisionTree&& other) noexcept;
     DecisionTree& operator=(DecisionTree&& other) noexcept;
 
-    void getOriginalMatrix();
-    void getComputationMatrix();
-    void getResponse();
+    AbstractMatType getOriginalMatrix();
+    std::vector<CategoricalDescriptor> getComputationMatrix();
+    CategoricalDescriptor getResponse();
 
 private:
     void computeTree();
 
-    std::vector<std::shared_ptr<AbstractDescriptor>> matOri;
+    AbstractMatType matOri;
     std::vector<CategoricalDescriptor> matComp;
     std::map<int,int> idxsRelations;
     CategoricalDescriptor response;

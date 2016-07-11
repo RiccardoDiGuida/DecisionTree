@@ -7,15 +7,15 @@
 
 int main()
 {
-  /* CategoricalDescriptor catA = std::vector<std::string>({"cose","da","fare"});
+    CategoricalDescriptor catA = std::vector<std::string>({"cose","da","fare"});
     ContinuousDescriptor conA = std::vector<double>({1,4,2.3,6.3,2});
 
     const auto& vec = conA.toCategorical(3);
 
     for(const auto& i : vec)
-        std::cout<< i.getLevel(0); */
+        std::cout<< i.getLevel(1);
 
-    Pool p(std::vector<int>{3,2,5,4},std::vector<std::string>{"a","b","c","e"});
+  /*  Pool p(std::vector<int>{3,2,5,4},std::vector<std::string>{"a","b","c","e"});
 
     Pool p2(std::vector<int>{2,3,8},std::vector<std::string>{"b","b","e"});
 
@@ -26,7 +26,7 @@ int main()
     p.add_node(p2);
     p.add_node(p3);
 
-    std::cout << p;
+    std::cout << p;*/
 
     return 0;
 }

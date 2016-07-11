@@ -1,4 +1,8 @@
 #include "continuousdescriptor.h"
+#include <stdexcept>
+#include <string>
+#include <algorithm>
+#include <sstream>
 #include <assert.h>
 
 ContinuousDescriptor::ContinuousDescriptor()
@@ -66,8 +70,15 @@ std::vector<CategoricalDescriptor>  ContinuousDescriptor::toCategorical(int grou
         for(int j=0;j<data.size();j++)
         {
             newVar.resize(data.size());
-            std::string minorstr = "<" + std::to_string(threshold);
-            std::string majorstr = ">" + std::to_string(threshold);
+
+            std::ostringstream ss;
+            ss << threshold;
+
+            /*std::string minorstr = "<" + std::to_string(threshold);
+            std::string majorstr = ">" + std::to_string(threshold);  GIVES PROBLEMS WITH MINGW */
+
+            std::string minorstr = "<=" + ss.str();
+            std::string majorstr = ">" + ss.str();
 
             if(data[j]<=threshold)
                 newVar[j] = minorstr;

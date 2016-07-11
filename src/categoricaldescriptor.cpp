@@ -1,5 +1,6 @@
 #include "categoricaldescriptor.h"
 #include <set>
+#include <stdexcept>
 #include <assert.h>
 
 CategoricalDescriptor::CategoricalDescriptor()

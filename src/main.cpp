@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <typeinfo>
 
 #include "continuousdescriptor.h"
 #include "categoricaldescriptor.h"
@@ -10,12 +11,18 @@ int main()
     CategoricalDescriptor catA = std::vector<std::string>({"cose","da","fare"});
     ContinuousDescriptor conA = std::vector<double>({1,4,2.3,6.3,2});
 
-    const auto& vec = conA.toCategorical(3);
+    std::shared_ptr<AbstractDescriptor> n = conA.clone();
+
+    std::cout << conA << std::endl;
+
+    n->Dummy();
+
+ /*   const auto& vec = conA.toCategorical(3);
 
     for(const auto& i : vec)
         std::cout<< i.getLevel(1);
 
-  /*  Pool p(std::vector<int>{3,2,5,4},std::vector<std::string>{"a","b","c","e"});
+    Pool p(std::vector<int>{3,2,5,4},std::vector<std::string>{"a","b","c","e"});
 
     Pool p2(std::vector<int>{2,3,8},std::vector<std::string>{"b","b","e"});
 

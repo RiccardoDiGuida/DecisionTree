@@ -11,11 +11,16 @@ class ContinuousDescriptor : public AbstractDescriptor
 {
 public:
     ContinuousDescriptor();
+    virtual ~ContinuousDescriptor();
     ContinuousDescriptor(const std::vector<double>& vec);
     ContinuousDescriptor(const ContinuousDescriptor &other);
     ContinuousDescriptor& operator=(const ContinuousDescriptor& other);
     ContinuousDescriptor(ContinuousDescriptor&& other) noexcept;
     ContinuousDescriptor& operator=(ContinuousDescriptor&& other) noexcept;
+
+    virtual Ptr create() const;
+    virtual Ptr clone() const;
+    virtual void Dummy()const {std::cout<<"Dummy con";}
 
     std::vector<CategoricalDescriptor> toCategorical(int groups=10);
 

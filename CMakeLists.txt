@@ -7,7 +7,6 @@ include_directories(${DecisionTree_SOURCE_DIR}/include)
 
 set(DECISION_CPP
 
-                                                src/abstractdescriptor.cpp
                                                 src/continuousdescriptor.cpp
                                                 src/categoricaldescriptor.cpp
                                                 src/pool.cpp

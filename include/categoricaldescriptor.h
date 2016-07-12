@@ -11,12 +11,17 @@ class CategoricalDescriptor : public AbstractDescriptor
 {
 public:
     CategoricalDescriptor();
+    virtual ~CategoricalDescriptor();
     CategoricalDescriptor(const std::vector<std::string>& vec);
     CategoricalDescriptor(const std::vector<std::string>&& vec);
     CategoricalDescriptor(const CategoricalDescriptor &other);
     CategoricalDescriptor& operator=(const CategoricalDescriptor& other);
     CategoricalDescriptor(CategoricalDescriptor&& other) noexcept;
     CategoricalDescriptor& operator=(CategoricalDescriptor&& other) noexcept;
+
+    virtual Ptr create() const;
+    virtual Ptr clone() const;
+    virtual void Dummy() const {std::cout<<"Dummy cat";}
 
     void toggleUsed();
     bool isUsed();

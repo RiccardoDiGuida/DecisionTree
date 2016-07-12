@@ -11,6 +11,11 @@ ContinuousDescriptor::ContinuousDescriptor()
 
 }
 
+ContinuousDescriptor::~ContinuousDescriptor()
+{
+
+}
+
 ContinuousDescriptor::ContinuousDescriptor(const std::vector<double>& vec)
     : data(vec)
 {
@@ -46,6 +51,15 @@ ContinuousDescriptor& ContinuousDescriptor::operator=(ContinuousDescriptor&& oth
     return *this;
 }
 
+ContinuousDescriptor::Ptr ContinuousDescriptor::create() const
+{
+    return Ptr(new ContinuousDescriptor());
+}
+
+ContinuousDescriptor::Ptr ContinuousDescriptor::clone() const
+{
+    return Ptr(new ContinuousDescriptor(*this));
+}
 
 std::vector<CategoricalDescriptor>  ContinuousDescriptor::toCategorical(int groups)
 {

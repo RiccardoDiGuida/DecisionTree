@@ -9,6 +9,11 @@ CategoricalDescriptor::CategoricalDescriptor()
 
 }
 
+CategoricalDescriptor::~CategoricalDescriptor()
+{
+
+}
+
 CategoricalDescriptor::CategoricalDescriptor(const std::vector<std::string>& vec)
     : data(vec)
 {
@@ -59,6 +64,16 @@ CategoricalDescriptor& CategoricalDescriptor::operator=(CategoricalDescriptor&& 
     used = other.used;
 
     return *this;
+}
+
+CategoricalDescriptor::Ptr CategoricalDescriptor::create() const
+{
+    return Ptr(new CategoricalDescriptor());
+}
+
+CategoricalDescriptor::Ptr CategoricalDescriptor::clone() const
+{
+    return Ptr(new CategoricalDescriptor(*this));
 }
 
 const std::string& CategoricalDescriptor::getLevel(int n) const

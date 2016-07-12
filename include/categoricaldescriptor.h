@@ -21,7 +21,7 @@ public:
 
     virtual Ptr create() const;
     virtual Ptr clone() const;
-    virtual void Dummy() const {std::cout<<"Dummy cat";}
+    virtual bool isConvertible() const;
 
     void toggleUsed();
     bool isUsed();

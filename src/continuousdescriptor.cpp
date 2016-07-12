@@ -61,6 +61,11 @@ ContinuousDescriptor::Ptr ContinuousDescriptor::clone() const
     return Ptr(new ContinuousDescriptor(*this));
 }
 
+bool ContinuousDescriptor::isConvertible() const
+{
+    return true;
+}
+
 std::vector<CategoricalDescriptor>  ContinuousDescriptor::toCategorical(int groups)
 {
     // Divides the range into equal parts and treats each segment as a separate categorical variable

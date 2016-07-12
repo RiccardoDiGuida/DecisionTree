@@ -20,7 +20,7 @@ public:
 
     virtual Ptr create() const;
     virtual Ptr clone() const;
-    virtual void Dummy()const {std::cout<<"Dummy con";}
+    virtual bool isConvertible()const;
 
     std::vector<CategoricalDescriptor> toCategorical(int groups=10);
 

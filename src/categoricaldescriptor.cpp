@@ -76,6 +76,11 @@ CategoricalDescriptor::Ptr CategoricalDescriptor::clone() const
     return Ptr(new CategoricalDescriptor(*this));
 }
 
+bool CategoricalDescriptor::isConvertible() const
+{
+    return false;
+}
+
 const std::string& CategoricalDescriptor::getLevel(int n) const
 {
     if(n<levels.size())

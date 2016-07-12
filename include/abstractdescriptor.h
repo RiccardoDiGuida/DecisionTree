@@ -11,7 +11,7 @@ public:
     virtual ~AbstractDescriptor() {}
     virtual Ptr create() const = 0;
     virtual Ptr clone() const = 0;
-    virtual void Dummy() const = 0;
+    virtual bool isConvertible() const = 0;
 };
 
 #endif // ABSTRACTDESCRIPTOR_H

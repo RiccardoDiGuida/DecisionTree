@@ -13,8 +13,6 @@ int main()
 
     std::shared_ptr<AbstractDescriptor> n = conA.clone();
 
-
-    if(typeid(*n)==typeid(ContinuousDescriptor&)) std::cout << "yea";
  /*   std::cout << conA << std::endl;
 
    const auto& vec = conA.toCategorical(3);

@@ -89,6 +89,11 @@ const std::string& CategoricalDescriptor::getLevel(int n) const
         throw std::out_of_range("n must be less than the number of levels!");
 }
 
+std::vector<std::string> CategoricalDescriptor::getLabels() const
+{
+    return data;
+}
+
 std::vector<int> CategoricalDescriptor::idxs(int facNumb) const
 {
     std::vector<int> indexes;

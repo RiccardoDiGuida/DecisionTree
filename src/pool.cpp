@@ -94,6 +94,16 @@ void Pool::remove_sample(int idx)
     //ignore for the moment
 }
 
+void Pool::setFactor(const std::string &fac)
+{
+    factor = fac;
+}
+
+void Pool::setVarIdx(int var)
+{
+    idx_splitter = var;
+}
+
 void Pool::add_node(const Pool& newPool)
 {
     next.push_back(std::make_shared<Pool>(newPool));

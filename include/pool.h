@@ -26,6 +26,9 @@ public:
     void add_node(const Pool& newPool);
     void add_node(Pool&& newPool);
 
+    void setFactor(const std::string& fac);
+    void setVarIdx(int var);
+
     Pool& getNext(int i);
 
     int sampleSize() const;

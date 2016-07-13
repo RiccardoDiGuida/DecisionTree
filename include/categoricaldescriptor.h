@@ -27,6 +27,7 @@ public:
     bool isUsed();
 
     const std::string& getLevel(int n) const;
+    std::vector<std::string> getLabels() const;
 
     std::vector<int> idxs(int facNumb) const;
 

@@ -21,7 +21,10 @@ public:
     CategoricalDescriptor getResponse();
 
 private:
-    void computeTree();
+    void computeTree(Pool& pool);
+    double entropy(const std::vector<int>& partitions, int total);
+    double infoGain(const CategoricalDescriptor& desc,const Pool& currPool);
+
 
     AbstractMatType matOri;
     std::vector<CategoricalDescriptor> matComp;

@@ -10,7 +10,7 @@ public:
     typedef std::vector<std::shared_ptr<AbstractDescriptor>> AbstractMatType;
 
     DecisionTree() = delete;
-    DecisionTree(const AbstractMatType& mat,const CategoricalDescriptor& resp);
+    DecisionTree(const AbstractMatType& mat, const CategoricalDescriptor& resp, int groups=10);
     DecisionTree(const DecisionTree& other);
     DecisionTree& operator=(const DecisionTree& other);
     DecisionTree(DecisionTree&& other) noexcept;
@@ -23,7 +23,7 @@ public:
 private:
     void computeTree(Pool& pool);
     double entropy(const std::vector<int>& partitions, int total);
-    double infoGain(const CategoricalDescriptor& desc,const Pool& currPool);
+    double infoGain(const CategoricalDescriptor& desc, const Pool& currPool,double first);
 
 
     AbstractMatType matOri;

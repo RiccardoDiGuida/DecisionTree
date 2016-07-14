@@ -104,6 +104,11 @@ void Pool::setVarIdx(int var)
     idx_splitter = var;
 }
 
+void Pool::setInfoGain(double gain)
+{
+    info_gain = gain;
+}
+
 void Pool::add_node(const Pool& newPool)
 {
     next.push_back(std::make_shared<Pool>(newPool));
@@ -136,6 +141,15 @@ const std::string& Pool::getLevel(int n) const
         return levels[n];
     else
         throw std::out_of_range("n must be less than the number of levels!");
+}
+
+std::vector<int> Pool::allIdxs() const
+{
+    std::vector<int> res(sampleSize());
+
+    transform(samples.begin(),samples.end(),res.begin(),[](std::pair<int,std::string> a){return a.first;});
+
+    return res;
 }
 
 std::vector<int> Pool::idxs(int facNumb) const

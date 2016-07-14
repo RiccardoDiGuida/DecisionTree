@@ -28,12 +28,14 @@ public:
 
     void setFactor(const std::string& fac);
     void setVarIdx(int var);
+    void setInfoGain(double gain);
 
     Pool& getNext(int i);
 
     int sampleSize() const;
     int levelSize() const;
     const std::string& getLevel(int n) const;
+    std::vector<int> allIdxs() const;
     std::vector<int> idxs(int facNumb) const;
 
     friend std::ostream& operator<<(std::ostream& ostr,const Pool& pool);

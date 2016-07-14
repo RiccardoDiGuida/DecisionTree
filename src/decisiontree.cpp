@@ -1,9 +1,10 @@
 #include <algorithm>
+#include <cmath>
 
 #include "decisiontree.h"
 #include "assert.h"
 
-DecisionTree::DecisionTree(const AbstractMatType& mat,const CategoricalDescriptor& resp)
+DecisionTree::DecisionTree(const AbstractMatType& mat,const CategoricalDescriptor& resp,int groups)
     :response(resp)
 {
     matOri.resize(mat.size());
@@ -116,24 +117,71 @@ CategoricalDescriptor DecisionTree::getResponse()
 void DecisionTree::computeTree(Pool& pool)
 {
     double max =0;
+    int varChosen=0;
+
+    std::vector<int> occurrencesInResp(pool.levelSize());
+
+    for(int j=0;j<pool.levelSize();j++)
+        occurrencesInResp[j] = pool.idxs(j).size();
+
+    double firstTerm = entropy(occurrencesInResp,pool.sampleSize());
+
     for(int i=0;i<matComp.size();i++)
     {
-        double calc = infoGain(matComp[i],pool);
+        double calc = infoGain(matComp[i],pool,firstTerm);
         if(calc>max)
         {
             max = calc;
-            pool.setVarIdx(i);
-            int splits = matComp[i].levelSize();
+            varChosen = i;
         }
+    }
+    pool.setVarIdx(varChosen);
+    int splits = matComp[varChosen].levelSize();
+
+    for(int j=0;j<splits;j++)
+    {
+        std::vector<int> descIdxs = matComp[varChosen].idxs(j);
+        std::vector<int> respIdxs = pool.allIdxs();
+        std::vector<int> intersec;
+        intersec.reserve(pool.sampleSize());
+        std::set_intersection(descIdxs.begin(),descIdxs.end(),respIdxs.begin(),
+                                respIdxs.end(),std::back_inserter(intersec));
+         //TODO: Add a function in Pool that returns all the labels given a vec of indexes and use it to build a new Pool
     }
 }
 
 double DecisionTree::entropy(const std::vector<int>& partitions, int total)
 {
-
+    double res=0;
+    for(int i: partitions)
+    {
+        if(!i)
+            continue;
+        res -= (i/total)*log2(i/total);
+    }
+    return res;
 }
 
-double DecisionTree::infoGain(const CategoricalDescriptor& desc,const Pool& currPool)
+double DecisionTree::infoGain(const CategoricalDescriptor& desc,const Pool& currPool,double first)
 {
+    double sum = 0;
 
+    for(int i=0;i<desc.levelSize();i++)
+    {
+        std::vector<int> descIdxs = desc.idxs(i);
+        std::vector<int> probPoolLev(currPool.levelSize());
+        for(int j=0;j<currPool.levelSize();j++)
+        {
+            std::vector<int> respIdxs = currPool.idxs(j);
+            std::vector<int> intersec;
+            intersec.reserve(currPool.sampleSize());
+            std::set_intersection(descIdxs.begin(),descIdxs.end(),respIdxs.begin(),
+                                    respIdxs.end(),std::back_inserter(intersec));
+            probPoolLev[j] = intersec.size();
+        }
+        double totPoolInLeaf = static_cast<double>(std::accumulate(probPoolLev.begin(),probPoolLev.end(),0));
+
+        sum +=  (totPoolInLeaf/currPool.sampleSize())*entropy(probPoolLev,totPoolInLeaf);
+    }
+    return first-sum;
 }

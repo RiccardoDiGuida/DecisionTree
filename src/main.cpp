@@ -5,15 +5,16 @@
 #include "continuousdescriptor.h"
 #include "categoricaldescriptor.h"
 #include "pool.h"
+#include "decisiontree.h"
 
 int main()
 {
-    CategoricalDescriptor catA = std::vector<std::string>({"cose","da","fare"});
+ /*   CategoricalDescriptor catA = std::vector<std::string>({"cose","da","fare"});
     ContinuousDescriptor conA = std::vector<double>({1,4,2.3,6.3,2});
 
     std::shared_ptr<AbstractDescriptor> n = conA.clone();
 
- /*   std::cout << conA << std::endl;
+    std::cout << conA << std::endl;
 
    const auto& vec = conA.toCategorical(3);
 
@@ -32,6 +33,17 @@ int main()
     p.add_node(p3);
 
     std::cout << p;*/
+
+    CategoricalDescriptor pat({"Some","Full","Some","Full","Full","Some","None","Some","Full","Full","None","Full"});
+    CategoricalDescriptor type({"French","Thai","Burger","Thai","French","Italian","Burger","Thai","Burger","Italian","Thai","Burger"});
+    CategoricalDescriptor labs({"T","F","T","T","F","T","F","T","F","F","F","T"});
+
+    DecisionTree::AbstractMatType mat;
+
+    mat.push_back(std::make_shared<CategoricalDescriptor>(pat));
+    mat.push_back(std::make_shared<CategoricalDescriptor>(type));
+
+    DecisionTree tree(mat,labs);
 
     return 0;
 }

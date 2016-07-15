@@ -64,8 +64,8 @@ Pool& Pool::operator=(const Pool& other)
 }
 
 Pool::Pool(Pool&& other) noexcept
-    :samples(std::move(other.samples)),levels(std::move(levels)),
-             next(std::move(other.next)),factor(std::move(factor)),idx_splitter(other.idx_splitter),info_gain(other.info_gain)
+    :samples(std::move(other.samples)),levels(std::move(other.levels)),
+             next(std::move(other.next)),factor(std::move(other.factor)),idx_splitter(other.idx_splitter),info_gain(other.info_gain)
 {
 
 }

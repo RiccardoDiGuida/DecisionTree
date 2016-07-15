@@ -131,31 +131,34 @@ void DecisionTree::computeTree(Pool& pool)
     for(int i=0;i<matComp.size();i++)
     {
         double calc = infoGain(matComp[i],pool,firstTerm);
-        if(calc>max)
+        if(calc>=max)
         {
             max = calc;
             varChosen = i;
         }
     }
-    pool.setVarIdx(varChosen);
-    int splits = matComp[varChosen].levelSize();
-
-    for(int j=0;j<splits;j++)
+    if(max>0)
     {
-        std::vector<int> descIdxs = matComp[varChosen].idxs(j);
-        std::vector<int> respIdxs = pool.allIdxs();
-        std::vector<int> intersec;
-        intersec.reserve(pool.sampleSize());
-        std::set_intersection(descIdxs.begin(),descIdxs.end(),respIdxs.begin(),
-                                respIdxs.end(),std::back_inserter(intersec));
+        pool.setVarIdx(varChosen);
+        int splits = matComp[varChosen].levelSize();
 
-        pool.add_node(Pool(intersec,pool.labsFromIdx(intersec),matComp[varChosen].getLevel(j)));
+        for(int j=0;j<splits;j++)
+        {
+            std::vector<int> descIdxs = matComp[varChosen].idxs(j);
+            std::vector<int> respIdxs = pool.allIdxs();
+            std::vector<int> intersec;
+            intersec.reserve(pool.sampleSize());
+            std::set_intersection(descIdxs.begin(),descIdxs.end(),respIdxs.begin(),
+                                    respIdxs.end(),std::back_inserter(intersec));
 
-        Pool& poolToCheck = pool.getNext(j);
-        if(poolToCheck.levelSize()<=1)
-            continue;
-        else
-            computeTree(poolToCheck);
+            pool.add_node(Pool(intersec,pool.labsFromIdx(intersec),matComp[varChosen].getLevel(j)));
+
+            Pool& poolToCheck = pool.getNext(j);
+            if(poolToCheck.levelSize()<=1)
+                continue;
+            else
+                computeTree(poolToCheck);
+        }
     }
 }
 
@@ -166,7 +169,7 @@ double DecisionTree::entropy(const std::vector<int>& partitions, int total)
     {
         if(!i)
             continue;
-        res -= (i/total)*log2(i/total);
+        res -= (i/double(total))*log2(i/double(total));
     }
     return res;
 }

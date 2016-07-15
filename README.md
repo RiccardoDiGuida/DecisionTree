@@ -4,6 +4,8 @@ Some days ago I watched [this lecture](https://www.youtube.com/watch?v=-dCtJjlEE
 so I decided to try my personal implementation of the algorithm (also to learn how to use `cmake`). It supports categorical and continuous
 variables as descriptors. The labels are not constrained on two levels only. It does not rely on any external library.
 
+The criterion to select the best variable to split the dataset is based on the achievement of the maximum information gain calculated on entropy.
+
 In order to build you can simply access the project root directory and type
     
     mkdir build 

@@ -152,6 +152,15 @@ std::vector<int> Pool::allIdxs() const
     return res;
 }
 
+std::vector<std::string> Pool::labsFromIdx(const std::vector<int>& indexes) const
+{
+    std::vector<std::string> res(indexes.size());
+    for(int i=0;i<indexes.size();i++)
+        res[i] = samples.at(indexes[i]);
+
+    return res;
+}
+
 std::vector<int> Pool::idxs(int facNumb) const
 {
     std::vector<int> indexes;

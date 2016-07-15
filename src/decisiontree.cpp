@@ -42,7 +42,9 @@ DecisionTree::DecisionTree(const AbstractMatType& mat,const CategoricalDescripto
     std::iota(vecRespIdx.begin(),vecRespIdx.end(),0);
     Pool first(vecRespIdx,resp.getLabels());
 
-    computeTree(first);
+    firstPool = std::move(first);
+
+    computeTree(firstPool);
 }
 
 DecisionTree::DecisionTree(const DecisionTree& other)
@@ -146,7 +148,14 @@ void DecisionTree::computeTree(Pool& pool)
         intersec.reserve(pool.sampleSize());
         std::set_intersection(descIdxs.begin(),descIdxs.end(),respIdxs.begin(),
                                 respIdxs.end(),std::back_inserter(intersec));
-         //TODO: Add a function in Pool that returns all the labels given a vec of indexes and use it to build a new Pool
+
+        pool.add_node(Pool(intersec,pool.labsFromIdx(intersec),matComp[varChosen].getLevel(j)));
+
+        Pool& poolToCheck = pool.getNext(j);
+        if(poolToCheck.levelSize()<=1)
+            continue;
+        else
+            computeTree(poolToCheck);
     }
 }
 

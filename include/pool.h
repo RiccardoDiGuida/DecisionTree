@@ -37,6 +37,7 @@ public:
     const std::string& getLevel(int n) const;
     std::vector<int> allIdxs() const;
     std::vector<int> idxs(int facNumb) const;
+    std::vector<std::string> labsFromIdx(const std::vector<int>& indexes) const;
 
     friend std::ostream& operator<<(std::ostream& ostr,const Pool& pool);
 

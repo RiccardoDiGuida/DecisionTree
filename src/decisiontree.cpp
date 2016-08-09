@@ -32,7 +32,7 @@ DecisionTree::DecisionTree(const AbstractMatType& mat,const CategoricalDescripto
         else
         {
             std::shared_ptr<CategoricalDescriptor> CatPtr = std::dynamic_pointer_cast<CategoricalDescriptor>(matOri[i]);
-            matComp.push_back(std::move(*CatPtr));
+            matComp.push_back(*CatPtr);
 
             idxsRelations.emplace(matComp.size()-1,i);
         }
@@ -140,6 +140,7 @@ void DecisionTree::computeTree(Pool& pool)
     if(max>0)
     {
         pool.setVarIdx(varChosen);
+        pool.setInfoGain(max);
         int splits = matComp[varChosen].levelSize();
 
         for(int j=0;j<splits;j++)

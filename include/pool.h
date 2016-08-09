@@ -44,7 +44,7 @@ public:
 private:
     std::string factor;   // It is the factor that splitted it. Does not apply for first pool.
     int idx_splitter;    // index of the variable that splits the current pool
-    int info_gain;       // information gain obtained on the split
+    double info_gain;       // information gain obtained on the split
     MyMap samples;
     std::vector<std::string> levels;
     std::vector<std::shared_ptr<Pool>> next;

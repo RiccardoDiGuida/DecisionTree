@@ -45,6 +45,11 @@ int main()
 
     DecisionTree tree(mat,labs);
 
+    auto compMat = tree.getComputationMatrix();
+    auto oriMat = tree.getOriginalMatrix();
+    for(const auto& i : oriMat)
+        std::cout << i << std::endl;
+
     return 0;
 }
 

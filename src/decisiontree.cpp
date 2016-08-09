@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <numeric>
 
 #include "decisiontree.h"
 #include "assert.h"
